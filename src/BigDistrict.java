@@ -23,13 +23,18 @@ public class BigDistrict {
         }
 
         int crimeDistricNum = 0;
+        int counter = 0;
         for(int i = 0; i <latitude.size(); i++){
-            System.out.println(Double.parseDouble(longitude.get(i)));
             crimeDistricNum = Integer.parseInt(districtDirectory.posToDistrict(Double.parseDouble(latitude.get(i)), Double.parseDouble(longitude.get(i))));
+            if(crimeDistricNum == -1){
+                counter++;
+                System.out.println(latitude.get(i) + ", " + longitude.get(i));
+            }
             if(crimeDistricNum != -1) {
                 hash.get(crimeDistricNum).addCrime();
             }
         }
+        System.out.println(counter);
         for (int i = 0; i < hash.size(); i++) {
             dist = new ArrayList<>(hash.values());
         }

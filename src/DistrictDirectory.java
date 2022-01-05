@@ -15,10 +15,9 @@ public class DistrictDirectory {
     HashMap<Path2D, String> hash = new HashMap<>();
     public String posToDistrict(double x, double y) {
         for (Path2D p : pathList) {
-            if (p.contains(x, y)) {
+            if (p.contains(y, x)) {
                 if(hash.get(p) == null)
                     System.out.println("ahh");
-
                 return hash.get(p);
             }
         }
@@ -55,18 +54,20 @@ public class DistrictDirectory {
             PolygonShape aPolygon = (PolygonShape) s;
             polyShapeList.add(aPolygon);
         }
-
         for (PolygonShape a : polyShapeList) {
             PointData[] p = a.getPoints();
             Path2D path = new Path2D.Double();
-            path.moveTo(p[0].getY(), p[0].getX());
-            for (int i = 1; i < p.length; i++) {
-                path.lineTo(p[i].getY(), p[i].getX());
-            }
+            path.moveTo(a.getBoxMinX(), a.getBoxMinY());
+            path.lineTo(a.getBoxMaxX(),a.getBoxMinY());
+            path.lineTo(a.getBoxMaxX(),a.getBoxMaxY());
+            path.lineTo(a.getBoxMinX(),a.getBoxMaxY());
+//            for (int i = 1; i < p.length; i++) {
+//                path.lineTo(p[i].getX(), p[i].getY());
+//            }
+            path.closePath();
             pathList.add(path);
         }
         System.out.println(names);
-        System.out.println(pathList.size());
         for (int i = 0; i < names.size() ; i++) {
             hash.put(pathList.get(i), names.get(i));
         }
